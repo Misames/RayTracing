@@ -1,6 +1,8 @@
+#pragma once
+
 #include <vector>
-#include "HPoint.hpp"
-#include "HVector.hpp"
+#include "hpoint.hpp"
+#include "hvector.hpp"
 
 class Matrix
 {
@@ -16,11 +18,3 @@ public:
     Matrix operator*(HVector);
     Matrix operator*(Matrix);
 };
-
-Matrix::Matrix()
-{
-}
-
-Matrix::~Matrix()
-{
-}

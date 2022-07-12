@@ -1,5 +1,8 @@
-#include "Point.hpp"
-class HPoint
+#pragma once
+
+#include "point.hpp"
+
+class HPoint : Point
 {
 private:
 public:

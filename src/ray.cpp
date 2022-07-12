@@ -1,4 +1,4 @@
-#include "Ray.hpp"
+#include "ray.hpp"
 
 Ray::Ray()
 {

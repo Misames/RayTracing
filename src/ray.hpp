@@ -1,5 +1,7 @@
-#include "Point.hpp"
-#include "Vector.hpp"
+#pragma once
+
+#include "point.hpp"
+#include "vector.hpp"
 
 class Ray
 {

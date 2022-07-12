@@ -1,4 +1,6 @@
-#include "Vector.hpp"
+#pragma once
+
+#include "vector.hpp"
 
 class HVector : Vector
 {

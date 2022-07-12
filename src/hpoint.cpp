@@ -1,4 +1,4 @@
-#include "HPoint.hpp"
+#include "hpoint.hpp"
 
 HPoint::HPoint()
 {

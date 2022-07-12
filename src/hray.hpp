@@ -1,4 +1,6 @@
-#include "Ray.hpp"
+#pragma once
+
+#include "ray.hpp"
 
 class HRay : Ray
 {

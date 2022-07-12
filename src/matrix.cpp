@@ -1,9 +1,9 @@
-#include "Matrix.hpp"
+#include "matrix.hpp"
 
 Matrix::Matrix()
 {
-     this->vect[4][4] = new float[4][4];
 }
+
 Matrix::~Matrix()
 {
 }

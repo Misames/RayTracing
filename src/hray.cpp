@@ -1,4 +1,4 @@
-#include "HRay.hpp"
+#include "hray.hpp"
 
 HRay::HRay()
 {
