@@ -1,4 +1,4 @@
-#include "Camera.hpp"
+#include "camera.hpp"
 
 Camera::Camera(int width, int height, glm::vec3 position)
 {

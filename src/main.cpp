@@ -4,6 +4,8 @@
 #include <glm.hpp>
 #include "GLShader.h"
 
+using namespace std;
+
 GLShader myShader;
 
 void Initialize()
@@ -34,20 +36,18 @@ void Display(GLFWwindow *window)
     int width, height;
     glfwGetWindowSize(window, &width, &height);
     glViewport(0, 0, width, height);
-
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT);
-
     GLuint basicProgram = myShader.GetProgram();
     glUseProgram(basicProgram);
 }
 
-static void error_callback(int error, const char *description)
+static void ErrorCallback(int error, const char *description)
 {
-    std::cout << "Error GFLW " << error << " : " << description << std::endl;
+    cout << "Error GFLW " << error << " : " << description << endl;
 }
 
-static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
@@ -56,7 +56,7 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 int main(void)
 {
     GLFWwindow *window;
-    glfwSetErrorCallback(error_callback);
+    glfwSetErrorCallback(ErrorCallback);
 
     if (!glfwInit())
         return -1;
@@ -69,7 +69,7 @@ int main(void)
     }
 
     glfwMakeContextCurrent(window);
-    glfwSetKeyCallback(window, key_callback);
+    glfwSetKeyCallback(window, KeyCallback);
     Initialize();
 
     while (!glfwWindowShouldClose(window))

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CAMERA_CLASS_HPP
 #define CAMERA_CLASS_HPP
 
