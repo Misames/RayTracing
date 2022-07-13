@@ -1,4 +1,10 @@
 #define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+#define STBI_MSC_SECURE_CRT
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
+
 #define TINYOBJLOADER_IMPLEMENTATION
 
 #include <iostream>
@@ -6,7 +12,6 @@
 #include <glew.h>
 #include <glfw3.h>
 #include <glm.hpp>
-#include <stb_image.h>
 #include <tiny_obj_loader.h>
 #include "GLShader.h"
 #include "camera.hpp"
@@ -145,10 +150,26 @@ GLFWwindow *window;
 GLShader m_shader;
 bool m_shadows = true;
 int m_widthImage, m_heihgtImage;
-string nameOutputImage = "default.jpg";
+string nameOutputImage = "default.png";
 map<string, int> lstSceneToRender;
 vector<Object> lstObj;
 Camera cam(640, 480, glm::vec3(0.0f, 0.0f, 2.0f));
+
+void SaveImage(string filepath, GLFWwindow *w)
+{
+    int width, height;
+    glfwGetFramebufferSize(w, &width, &height);
+    GLsizei nrChannels = 3;
+    GLsizei stride = nrChannels * width;
+    stride += (stride % 4) ? (4 - stride % 4) : 0;
+    GLsizei bufferSize = stride * height;
+    std::vector<char> buffer(bufferSize);
+    glPixelStorei(GL_PACK_ALIGNMENT, 4);
+    glReadBuffer(GL_FRONT);
+    glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, buffer.data());
+    stbi_flip_vertically_on_write(true);
+    stbi_write_png(filepath.c_str(), width, height, nrChannels, buffer.data(), stride);
+}
 
 void Initialize()
 {
@@ -188,6 +209,21 @@ static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, i
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
+
+    if (key == GLFW_KEY_Q && action == GLFW_PRESS)
+    {
+        // export render into jpg
+        cout << "choose name of output image" << endl;
+        cin >> nameOutputImage;
+        SaveImage(nameOutputImage, window);
+        cout << "export rennder" << endl;
+    }
+
+    if (key == GLFW_KEY_F10 && action == GLFW_PRESS)
+    {
+        m_shadows = m_shadows == false ? true : false;
+        cout << m_shadows << endl;
+    }
 }
 
 void Display()
