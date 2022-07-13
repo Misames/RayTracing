@@ -1,8 +1,24 @@
-attribute vec2 a_position;
-attribute vec3 a_color;
-varying vec4 v_color;
+// Model 3D
+attribute vec4 a_position;
+attribute vec3 a_normal;
 
-void main(void) {
-    gl_Position = vec4(a_position, 0.0, 1.0);
-    v_color = vec4(a_color, 1.0);
+// Matrice de modification
+uniform float u_time;
+uniform mat4 u_rotationMatrix;
+uniform mat4 u_translationMatrix;
+uniform mat4 u_projectionMatrix;
+uniform mat4 u_view;
+
+// Texture
+attribute vec2 a_texcoords;
+varying vec2 v_texcoords;
+varying vec3 v_normal;
+
+void main()
+{
+    v_texcoords = a_texcoords;
+    mat4 worldMatrix = u_translationMatrix * u_rotationMatrix;
+    v_normal = mat3(worldMatrix) * a_normal;
+    // gl_Position = u_projectionMatrix * worldMatrix * a_position;
+    gl_Position = u_projectionMatrix * a_position;
 }
