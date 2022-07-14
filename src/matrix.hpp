@@ -1,20 +1,24 @@
 #pragma once
 
-#include <vector>
+#include <array>
 #include "hpoint.hpp"
 #include "hvector.hpp"
 
+using namespace std;
+
 class Matrix
 {
-private:
-    std::vector<std::vector<int>> vect;
-
 public:
-    Matrix();
+    array<array<float, 4>, 4> mat;
+
     ~Matrix();
-    float operator[](int);
-    Matrix Inverse();
-    Matrix operator*(HPoint);
-    Matrix operator*(HVector);
-    Matrix operator*(Matrix);
+    Matrix();
+    Matrix(const array<array<float, 4>, 4>);
+
+    void operator=(const Matrix &);
+    HPoint operator*(const HPoint &);
+    HVector operator*(const HVector &);
+    Matrix operator*(const Matrix &);
+
+    Matrix Reverse();
 };

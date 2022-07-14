@@ -1,21 +1,28 @@
 #pragma once
 
-#include "vector.hpp"
-#include "point.hpp"
+#include "matrix.hpp"
 #include "ray.hpp"
 
 class Entity
 {
-private:
 public:
-    Entity();
+    Matrix transform;
+    Matrix transformReverse;
+    Point position;
+
     ~Entity();
-    void translate(float x, float y, float z);
-    void rotateX(float deg);
-    void rotateY(float deg);
-    void rotateZ(float deg);
-    void scale(float factor);
-    Vector localToGlobal(const Vector &v) const;
-    Point localToGlobal(const Point &p) const;
-    Ray localToGlobal(const Ray &r) const;
+    Entity(Matrix);
+    Entity(Vector, float, float);
+
+    void translate(float, float, float);
+    void rotateX(float);
+    void rotateY(float);
+    void rotateZ(float);
+    void scale(float);
+    Vector localToGlobal(Vector);
+    Point localToGlobal(Point);
+    Ray localToGlobal(Ray);
+    Point globalToLocal(Point);
+    Vector globalToLocal(Vector);
+    Ray globalToLocal(Ray);
 };

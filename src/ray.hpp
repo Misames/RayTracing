@@ -5,10 +5,9 @@
 
 class Ray
 {
-private:
 public:
     Point origin;
-    Vector vector;
+    Vector direction;
     Ray();
     Ray(const Ray &);
     Ray(Point, Vector);

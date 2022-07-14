@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CAMERA_CLASS_HPP
-#define CAMERA_CLASS_HPP
 
 #include <glew.h>
 #include <glfw3.h>
@@ -28,7 +26,7 @@ public:
     int height;
 
     // Adjust the speed of the camera and it's sensitivity when looking around
-    float speed = 0.1f;
+    float speed = 1.5f;
     float sensitivity = 100.0f;
 
     // Camera constructor to set up initial values
@@ -36,7 +34,7 @@ public:
 
     // Updates and exports the camera matrix to the Vertex Shader
     void Matrix(float FOVdeg, float nearPlane, float farPlane, GLShader &shader, const char *uniform);
+
     // Handles camera inputs
     void Inputs(GLFWwindow *window);
 };
-#endif

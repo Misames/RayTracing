@@ -2,10 +2,25 @@
 
 #include "vector.hpp"
 
-class HVector : Vector
+class HVector : public Vector
 {
-private:
 public:
-    HVector();
+    float x;
+    float y;
+    float z;
+    float w;
+
     ~HVector();
+    HVector();
+    HVector(float, float, float);
+
+    HVector &operator*=(const float);
+    HVector &operator+=(const float);
+    HVector &operator-=(const float);
+    HVector &operator/=(const float);
+
+    HVector Opposite();
+    HVector Normalized();
+    float Dot(HVector vec);
+    float Norm();
 };
