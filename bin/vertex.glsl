@@ -1,24 +1,16 @@
-// Model 3D
+#version 330
+
 attribute vec4 a_position;
 attribute vec3 a_normal;
-
-// Matrice de modification
-uniform float u_time;
-uniform mat4 u_rotationMatrix;
-uniform mat4 u_translationMatrix;
-uniform mat4 u_projectionMatrix;
-uniform mat4 u_view;
-
-// Texture
 attribute vec2 a_texcoords;
-varying vec2 v_texcoords;
-varying vec3 v_normal;
+
+uniform float u_time;
+uniform mat4 u_translation;
+uniform mat4 u_rotation;
+uniform mat4 u_scale;
+uniform mat4 u_projection;
 
 void main()
 {
-    v_texcoords = a_texcoords;
-    mat4 worldMatrix = u_translationMatrix * u_rotationMatrix;
-    v_normal = mat3(worldMatrix) * a_normal;
-    // gl_Position = u_projectionMatrix * worldMatrix * a_position;
-    gl_Position = u_projectionMatrix * a_position;
+    gl_Position = u_projection * a_position;
 }

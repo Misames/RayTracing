@@ -1,10 +1,6 @@
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
 #define STBI_MSC_SECURE_CRT
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb_image_write.h"
-
 #define TINYOBJLOADER_IMPLEMENTATION
 
 #include <iostream>
@@ -13,6 +9,8 @@
 #include <glfw3.h>
 #include <glm.hpp>
 #include <tiny_obj_loader.h>
+#include "stb_image.h"
+#include "stb_image_write.h"
 #include "GLShader.h"
 #include "camera.hpp"
 
@@ -38,6 +36,11 @@ struct Object
 
     void RenderOpenGL(GLShader m_shader, Camera cam)
     {
+        if (!m_renderer)
+            return;
+
+        static const int stride = sizeof(float) * 8;
+
         const GLint position = glGetAttribLocation(m_shader.GetProgram(), "a_position");
         glEnableVertexAttribArray(position);
         glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, &m_data[0]);
@@ -47,40 +50,46 @@ struct Object
         glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, &m_data[0]);
 
         const int normal = glGetAttribLocation(m_shader.GetProgram(), "a_normal");
-
-        static const int stride = sizeof(float) * 8;
-
         glEnableVertexAttribArray(normal);
         glVertexAttribPointer(normal, 3, GL_FLOAT, false, stride, &m_data[0]);
-
-        glUseProgram(m_shader.GetProgram());
 
         float time = glfwGetTime();
         const int timeLocation = glGetUniformLocation(m_shader.GetProgram(), "u_time");
         glUniform1f(timeLocation, time);
 
-        float rotationMatrix[] = {
-            cosf(time), 0.f, -sinf(time), 0.0f, // 1ere colonne
-            0.0f, 1.0f, 0.0f, 0.f,              // 2eme colonne
-            sinf(time), 0.f, cosf(time), 0.0f,  // 3eme colonne
-            0.0f, 0.0f, 0.0f, 1.0f              // 4eme colonne
-        };
-
-        const int rotationLocation = glGetUniformLocation(m_shader.GetProgram(), "u_rotationMatrix");
-        glUniformMatrix4fv(rotationLocation, 1, GL_FALSE, rotationMatrix);
-
-        float translationMatrix[] = {
+        float translation[] = {
             1.0f, 0.0f, 0.0f, 0.0f,            // 1ere colonne
             0.0f, 1.0f, 0.0f, 0.0f,            // 2eme colonne
             0.0f, 0.0f, 1.0f, 0.0f,            // 3eme colonne
             cosf(time), -100.0f, -350.0f, 1.0f // 4eme colonne
         };
 
-        const int translationLocation = glGetUniformLocation(m_shader.GetProgram(), "u_translationMatrix");
-        glUniformMatrix4fv(translationLocation, 1, GL_FALSE, translationMatrix);
+        const int translationLocation = glGetUniformLocation(m_shader.GetProgram(), "u_translation");
+        glUniformMatrix4fv(translationLocation, 1, GL_FALSE, translation);
 
-        float znear = 0.1f, zfar = 1000.0f, fov = 45.0f;
-        cam.Matrix(fov, znear, zfar, m_shader, "u_projectionMatrix");
+        float rotation[] = {
+            cosf(time), 0.f, -sinf(time), 0.0f, // 1ere colonne
+            0.0f, 1.0f, 0.0f, 0.f,              // 2eme colonne
+            sinf(time), 0.f, cosf(time), 0.0f,  // 3eme colonne
+            0.0f, 0.0f, 0.0f, 1.0f              // 4eme colonne
+        };
+
+        const int rotationLocation = glGetUniformLocation(m_shader.GetProgram(), "u_rotation");
+        glUniformMatrix4fv(rotationLocation, 1, GL_FALSE, rotation);
+
+        float scale[] = {
+            1.0f, 0.0f, 0.0f, 0.0f, // 1ere colonne
+            0.0f, 1.0f, 0.0f, 0.0f, // 2eme colonne
+            0.0f, 0.0f, 1.0f, 0.0f, // 3eme colonne
+            0.0f, 0.0f, 0.0f, 1.0f  // 4eme colonne
+        };
+
+        const int scaleLocation = glGetUniformLocation(m_shader.GetProgram(), "u_scale");
+        glUniformMatrix4fv(scaleLocation, 1, GL_FALSE, scale);
+
+        cam.Matrix(45.0f, 0.1f, 1000.0f, m_shader, "u_projection");
+
+        glDrawArrays(GL_TRIANGLES, m_data[0], m_indexVertex);
     }
 
     Object(string pathObj, string pathMat)
@@ -119,32 +128,13 @@ struct Object
                 }
             }
             cout << "model load" << endl;
-            uint8_t *data = stbi_load("img/brick.png", &m_widthTexture, &m_heightTexture, nullptr, STBI_rgb_alpha);
-
-            glGenTextures(1, &m_textureId);
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, m_textureId);
-
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-            if (data)
-            {
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_widthTexture, m_heightTexture, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-                glGenerateMipmap(GL_TEXTURE_2D);
-                stbi_image_free(data);
-            }
         }
         else
+        {
             cout << "model not found" << endl;
+        }
     }
 };
-
-/*
- * Variables Global
- */
 
 GLFWwindow *window;
 GLShader m_shader;
@@ -200,29 +190,37 @@ void Shutdown()
     glfwTerminate();
 }
 
-static void ErrorCallback(int error, const char *description)
+void ErrorCallback(int error, const char *description)
 {
     cout << "Error GFLW " << error << " : " << description << endl;
 }
 
-static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
+void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
 
+    // Exporter rendu
     if (key == GLFW_KEY_Q && action == GLFW_PRESS)
     {
-        // export render into jpg
         cout << "choose name of output image" << endl;
         cin >> nameOutputImage;
         SaveImage(nameOutputImage, window);
         cout << "export rennder" << endl;
     }
 
+    // Activer/Désactiver les ombres
     if (key == GLFW_KEY_F10 && action == GLFW_PRESS)
     {
-        m_shadows = m_shadows == false ? true : false;
-        cout << m_shadows << endl;
+        m_shadows = m_shadows ? false : true;
+        cout << "Shadows : " << noboolalpha << m_shadows << endl;
+    }
+
+    // Afficher/Cacher wolf
+    if (key == GLFW_KEY_F9 && action == GLFW_PRESS)
+    {
+        lstObj[0].m_renderer = lstObj[0].m_renderer ? false : true;
+        cout << "Rendu : " << noboolalpha << lstObj[0].m_renderer << endl;
     }
 }
 
@@ -230,17 +228,15 @@ void Display()
 {
     int widthWindow, heightWindow;
     glfwGetWindowSize(window, &widthWindow, &heightWindow);
-    glViewport(0, 0, widthWindow, heightWindow);
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT);
+    glUseProgram(m_shader.GetProgram());
 
     // exemple d'un model
-    lstObj[0].RenderOpenGL(m_shader, cam);
-
-    GLuint basicProgram = m_shader.GetProgram();
-    glUseProgram(basicProgram);
-    glfwGetWindowSize(window, &widthWindow, &heightWindow);
-    glDrawArrays(GL_TRIANGLES, lstObj[0].m_data[0], lstObj[0].m_indexVertex);
+    for (auto &&i : lstObj)
+    {
+        i.RenderOpenGL(m_shader, cam);
+    }
 }
 
 int main()
