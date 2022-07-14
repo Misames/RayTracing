@@ -2,10 +2,16 @@
 
 #include "point.hpp"
 
-class HPoint : Point
+class HPoint : public Point
 {
-private:
 public:
-    HPoint();
+    float w;
+
     ~HPoint();
+    HPoint();
+    HPoint(Point, float);
+    HPoint(float, float, float);
+    HPoint(float, float, float, float);
+
+    float Dot(HPoint);
 };

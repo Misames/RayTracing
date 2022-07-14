@@ -12,7 +12,16 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 #include "GLShader.h"
+
 #include "camera.hpp"
+#include "point.hpp"
+#include "hpoint.hpp"
+#include "vector.hpp"
+#include "hvector.hpp"
+#include "matrix.hpp"
+#include "ray.hpp"
+#include "hray.hpp"
+#include "entity.hpp"
 
 using namespace std;
 using namespace tinyobj;
@@ -136,10 +145,11 @@ struct Object
     }
 };
 
+// Global
 GLFWwindow *window;
-GLShader m_shader;
-bool m_shadows = true;
-int m_widthImage, m_heihgtImage;
+GLShader shader;
+bool shadows = true;
+int widthImage, heihgtImage;
 string nameOutputImage = "default.png";
 map<string, int> lstSceneToRender;
 vector<Object> lstObj;
@@ -173,9 +183,9 @@ void Initialize()
     cout << "Renderer : " << glGetString(GL_RENDERER) << endl;
 
     // Shader
-    m_shader.LoadVertexShader("vertex.glsl");
-    m_shader.LoadFragmentShader("fragment.glsl");
-    m_shader.Create();
+    shader.LoadVertexShader("vertex.glsl");
+    shader.LoadFragmentShader("fragment.glsl");
+    shader.Create();
 
     // Load Scene
     Object wolf = Object("data/wolf.obj", "");
@@ -186,7 +196,7 @@ void Initialize()
 
 void Shutdown()
 {
-    m_shader.Destroy();
+    shader.Destroy();
     glfwTerminate();
 }
 
@@ -212,8 +222,8 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods
     // Activer/Désactiver les ombres
     if (key == GLFW_KEY_F10 && action == GLFW_PRESS)
     {
-        m_shadows = m_shadows ? false : true;
-        cout << "Shadows : " << noboolalpha << m_shadows << endl;
+        shadows = shadows ? false : true;
+        cout << "Shadows : " << noboolalpha << shadows << endl;
     }
 
     // Afficher/Cacher wolf
@@ -230,13 +240,11 @@ void Display()
     glfwGetWindowSize(window, &widthWindow, &heightWindow);
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT);
-    glUseProgram(m_shader.GetProgram());
+    glUseProgram(shader.GetProgram());
 
     // exemple d'un model
-    for (auto &&i : lstObj)
-    {
-        i.RenderOpenGL(m_shader, cam);
-    }
+    for (auto &&obj : lstObj)
+        obj.RenderOpenGL(shader, cam);
 }
 
 int main()
