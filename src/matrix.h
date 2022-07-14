@@ -10,7 +10,7 @@ public :
 	std::array<std::array<float, 4>, 4> mat;
 
 public :
-	
+	//matrice par defaut = matrice a 0
 	matrix();
 	matrix(float x0y0, float x0y1, float x0y2, float x0y3, float x1y0, float x1y1, float x1y2, float x1y3, float x2y0, float x2y1, float x2y2, float x2y3, float x3y0, float x3y1, float x3y2, float x3y3);
 	matrix inverse();

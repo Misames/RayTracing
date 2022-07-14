@@ -1,15 +1,17 @@
 #pragma once
 
-#include <glew.h>
-#include <glfw3.h>
-#include <glm.hpp>
-#include <gtc/matrix_transform.hpp>
-#include <gtc/type_ptr.hpp>
-#include <gtx/rotate_vector.hpp>
-#include <gtx/vector_angle.hpp>
 
-#include "GLShader.h"
+#include "includes/glew/glew.h"
+#include "includes/glfw/glfw3.h"
+#include "includes/glm/glm.hpp"
 
+#include "includes/glm/gtc/matrix_transform.hpp"
+#include "includes/glm/gtc/type_ptr.hpp"
+#include "includes/glm/gtx/rotate_vector.hpp"
+#include "includes/glm/gtx/vector_angle.hpp"
+
+
+#include "includes/GLShader.h"
 class Camera
 {
 public:

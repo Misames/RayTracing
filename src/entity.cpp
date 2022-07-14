@@ -3,6 +3,17 @@
 Entity::Entity(matrix mat) {
 	MatTransform.mat = mat.mat;
 	MatTransformInv = mat.inverse();
+	
+}
+
+Entity::Entity(vecteur translation , float rotation , float scaling) {
+	
+	translate(translation.x, translation.y, translation.z);
+	rotateX(rotation);
+	rotateY(rotation);
+	rotateZ(rotation);
+	scale(scaling);
+
 }
 
 void Entity::translate(float x, float y, float z) {
@@ -19,23 +30,23 @@ void Entity::translate(float x, float y, float z) {
 void Entity::rotateX(float deg) {
 
 	matrix m;
-
-	m.mat[1][1] = cos(deg);
-	m.mat[1][2] = -sin(deg);
-	m.mat[2][1] = sin(deg);
-	m.mat[2][2] = cos(deg);
+	float rad = deg * PI / 180;
+	m.mat[1][1] = cos(rad);
+	m.mat[1][2] = -sin(rad);
+	m.mat[2][1] = sin(rad);
+	m.mat[2][2] = cos(rad);
 	this->MatTransform = m * this->MatTransform;
 	this->MatTransformInv = this->MatTransform.inverse();
 }
 
 void Entity::rotateY(float deg) {
 
-	matrix m;
-
-	m.mat[0][0] = cos(deg);
-	m.mat[0][2] = sin(deg);
-	m.mat[2][0] = -sin(deg);
-	m.mat[2][2] = cos(deg);
+	matrix m; 
+	float rad = deg * PI / 180;
+	m.mat[0][0] = cos(rad);
+	m.mat[0][2] = sin(rad);
+	m.mat[2][0] = -sin(rad);
+	m.mat[2][2] = cos(rad);
 	this->MatTransform = m * this->MatTransform;
 	this->MatTransformInv = this->MatTransform.inverse();
 }
@@ -43,11 +54,12 @@ void Entity::rotateY(float deg) {
 void Entity::rotateZ(float deg) {
 
 	matrix m;
+	float rad = deg * PI / 180;
 
-	m.mat[0][0] = cos(deg);
-	m.mat[0][1] = -sin(deg);
-	m.mat[1][0] = sin(deg);
-	m.mat[1][1] = cos(deg);
+	m.mat[0][0] = cos(rad);
+	m.mat[0][1] = -sin(rad);
+	m.mat[1][0] = sin(rad);
+	m.mat[1][1] = cos(rad);
 	this->MatTransform = m * this->MatTransform;
 	this->MatTransformInv = this->MatTransform.inverse();
 }

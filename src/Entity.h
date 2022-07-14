@@ -1,16 +1,20 @@
 #pragma once
 #include "matrix.h"
 #include "ray.h"
+#define PI 3.14159265
+
 
 class Entity
 {
 
-public :
+protected :
 	matrix MatTransform;
 	matrix MatTransformInv;
+	point position;
 
 public :
 	Entity(matrix mat);
+	Entity(vecteur translation, float rotation, float scaling);
 	void translate(float x, float y, float z);
 	void rotateX(float deg);
 	void rotateY(float deg);

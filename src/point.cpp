@@ -12,6 +12,12 @@ point::point(float a, float b, float c) {
 	this->z = c;
 }
 
+point::point(const point& p) {
+	this->x = p.x;
+	this->y = p.y;
+	this->z = p.z;
+}
+
 point& point::operator*=(const float a) {
 	this->x *= a;
 	this->y *= a;

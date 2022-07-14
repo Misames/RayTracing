@@ -1,10 +1,6 @@
-
-class vecteur
+#include "point.h"
+class vecteur : public point
 {
-public:
-	float x;
-	float y;
-	float z;
 	
 public:
 

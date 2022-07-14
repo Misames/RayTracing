@@ -11,6 +11,7 @@ public :
 public :
 	point();
 	point(float a, float b, float c);
+	point(const point& p);
 	point& operator*= (const float a);
 	point& operator+= (const float a);
 	point& operator-= (const float a);
