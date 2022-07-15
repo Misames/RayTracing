@@ -1,12 +1,9 @@
 #pragma once
+#include "Hpoint.h"
 
-
-class Hvec3
+class Hvec3 : public Hpoint
 {
 public:
-	float x;
-	float y;
-	float z;
 	float w = 0;
 
 public:

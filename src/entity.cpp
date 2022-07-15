@@ -1,12 +1,13 @@
 #include "Entity.h"
 
-Entity::Entity(matrix mat) {
+Entity::Entity(Matrix mat) {
 	MatTransform.mat = mat.mat;
 	MatTransformInv = mat.inverse();
+	position = Vec3(mat.mat[0][3], mat.mat[1][3], mat.mat[2][3]);
 	
 }
 
-Entity::Entity(vecteur translation , float rotation , float scaling) {
+Entity::Entity(Vec3 translation , float rotation , float scaling) {
 	
 	translate(translation.x, translation.y, translation.z);
 	rotateX(rotation);
@@ -18,7 +19,7 @@ Entity::Entity(vecteur translation , float rotation , float scaling) {
 
 void Entity::translate(float x, float y, float z) {
 
-	matrix m;
+	Matrix m;
 
 	m.mat[0][3] += x;
 	m.mat[1][3] += y;
@@ -29,7 +30,7 @@ void Entity::translate(float x, float y, float z) {
 
 void Entity::rotateX(float deg) {
 
-	matrix m;
+	Matrix m;
 	float rad = deg * PI / 180;
 	m.mat[1][1] = cos(rad);
 	m.mat[1][2] = -sin(rad);
@@ -41,7 +42,7 @@ void Entity::rotateX(float deg) {
 
 void Entity::rotateY(float deg) {
 
-	matrix m; 
+	Matrix m; 
 	float rad = deg * PI / 180;
 	m.mat[0][0] = cos(rad);
 	m.mat[0][2] = sin(rad);
@@ -53,7 +54,7 @@ void Entity::rotateY(float deg) {
 
 void Entity::rotateZ(float deg) {
 
-	matrix m;
+	Matrix m;
 	float rad = deg * PI / 180;
 
 	m.mat[0][0] = cos(rad);
@@ -65,7 +66,7 @@ void Entity::rotateZ(float deg) {
 }
 
 void Entity::scale(float factor) {
-	matrix m;
+	Matrix m;
 
 	m.mat[0][0] = factor;
 	m.mat[1][1] = factor;
@@ -75,57 +76,57 @@ void Entity::scale(float factor) {
 	this->MatTransformInv = this->MatTransform.inverse();
 }
 
-point Entity::localToGlobal(point p) {
+Point Entity::localToGlobal(Point p) {
 	Hpoint hpo(p.x,p.y,p.z);
 	Hpoint tmp = (this->MatTransformInv * hpo);
-	point ret(tmp.x,tmp.y,tmp.z);
+	Point ret(tmp.x,tmp.y,tmp.z);
 	return ret ;
 }
 
-vecteur Entity::localToGlobal(vecteur v) {
+Vec3 Entity::localToGlobal(Vec3 v) {
 	Hvec3 hvect(v.x,v.y,v.z);
 	Hvec3 tmp = (this->MatTransformInv * hvect);
-	vecteur ret(tmp.x, tmp.y, tmp.z);
+	Vec3 ret(tmp.x, tmp.y, tmp.z);
 	return ret;
 }
 
-ray Entity::localToGlobal( ray r) {
+Ray Entity::localToGlobal( Ray r) {
 	//Convertion de l'origin
 	Hpoint rorigin(r.origin.x, r.origin.y, r.origin.z);
 	Hpoint retOr = this->MatTransformInv * rorigin;
-	point pointOrigin(retOr.x, retOr.y, retOr.z);
+	Point pointOrigin(retOr.x, retOr.y, retOr.z);
 	//convertion du vecteur directeur
 	Hvec3 rdir(r.direction.x, r.direction.y, r.direction.z);
 	Hvec3 retDir = this->MatTransformInv * rdir;
-	vecteur vectDirecteur(retDir.x, retDir.y, retDir.z);
+	Vec3 vectDirecteur(retDir.x, retDir.y, retDir.z);
 
-	return ray(pointOrigin,vectDirecteur);
+	return Ray(pointOrigin,vectDirecteur);
 }
 
-point Entity::GlobalToLocal( point p) {
+Point Entity::globalToLocal( Point p) {
 	Hpoint hpo(p.x, p.y, p.z);
 	Hpoint tmp = (this->MatTransform * hpo);
-	point ret(tmp.x, tmp.y, tmp.z);
+	Point ret(tmp.x, tmp.y, tmp.z);
 	return ret;
 }
 
-vecteur Entity::GlobalToLocal(vecteur v) {
+Vec3 Entity::globalToLocal(Vec3 v) {
 	Hvec3 hvect(v.x, v.y, v.z);
 	Hvec3 tmp = (this->MatTransform * hvect);
-	vecteur ret(tmp.x, tmp.y, tmp.z);
+	Vec3 ret(tmp.x, tmp.y, tmp.z);
 	return ret;
 }
 
-ray Entity::GlobalToLocal( ray r) {
+Ray Entity::globalToLocal( Ray r) {
 	//Convertion de l'origin
 	Hpoint rorigin(r.origin.x, r.origin.y, r.origin.z);
 	Hpoint retOr = this->MatTransform * rorigin;
-	point pointOrigin(retOr.x, retOr.y, retOr.z);
+	Point pointOrigin(retOr.x, retOr.y, retOr.z);
 	//convertion du vecteur directeur
 	Hvec3 rdir(r.direction.x, r.direction.y, r.direction.z);
 	Hvec3 retDir = this->MatTransform * rdir;
-	vecteur vectDirecteur(retDir.x, retDir.y, retDir.z);
+	Vec3 vectDirecteur(retDir.x, retDir.y, retDir.z);
 
-	return ray(pointOrigin, vectDirecteur);
+	return Ray(pointOrigin, vectDirecteur);
 }
 

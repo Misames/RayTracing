@@ -1,11 +1,8 @@
 #pragma once
 #include "point.h"
-class Hpoint
+class Hpoint : public Point
 {
 public:
-	float x;
-	float y;
-	float z;
 	float w = 1;
 
 public:

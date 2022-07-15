@@ -2,15 +2,16 @@
 #include "point.h"
 #include "vector3.h"
 
-class ray
+class Ray 
 {
 public :
 
-	point origin;
-	vecteur direction;
+	Point origin;
+	Vec3 direction;
 
 public :
-	ray(float ox, float oy, float oz, float dx, float dy, float dz);
-	ray(point p, vecteur vec);
+	Ray(float ox, float oy, float oz, float dx, float dy, float dz);
+	Ray(Point p, Vec3 vec);
+	Ray(Point p, Point p2);
 };
 

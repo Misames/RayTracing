@@ -1,21 +1,26 @@
 #include "point.h"
-class vecteur : public point
+class Vec3 : public Point
 {
 	
 public:
 
-	vecteur();
-	vecteur(float a, float b, float c);
+	Vec3();
+	Vec3(float a, float b, float c);
 
-	vecteur& operator*= (const float a);
-	vecteur& operator+= (const float a);
-	vecteur& operator-= (const float a);
-	vecteur& operator/= (const float a);
+	Vec3& operator* (const float a);
+	
+	Vec3& operator+= (const float a);
+	Vec3& operator-= (const float a);
+	Vec3& operator/= (const float a);
+	Vec3& operator+(const Point v);
+	float& operator[](const int i);
+	float operator[](const int i)const;
 
-	vecteur normalized();
+	Vec3 normalized();
 	float norm();
-	float dot(vecteur vec);
-	vecteur oppose();
+	float dot(Vec3 vec);
+	float dot(Point vec);
+	Vec3 oppose();
 	
 
 };

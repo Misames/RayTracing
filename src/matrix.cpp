@@ -1,10 +1,10 @@
-#include "matrix.h"
+#include "Matrix.h"
 
-matrix::matrix() {
+Matrix::Matrix() {
 	this->mat = { 0 };
 }
 
-matrix::matrix(float x0y0, float x0y1, float x0y2, float x0y3, float x1y0, float x1y1, float x1y2, float x1y3, float x2y0, float x2y1, float x2y2, float x2y3, float x3y0, float x3y1, float x3y2, float x3y3) {
+Matrix::Matrix(float x0y0, float x0y1, float x0y2, float x0y3, float x1y0, float x1y1, float x1y2, float x1y3, float x2y0, float x2y1, float x2y2, float x2y3, float x3y0, float x3y1, float x3y2, float x3y3) {
 	this->mat[0][0] = x0y0;
 	this->mat[0][1] = x0y1;
 	this->mat[0][2] = x0y2;
@@ -26,7 +26,7 @@ matrix::matrix(float x0y0, float x0y1, float x0y2, float x0y3, float x1y0, float
 	this->mat[3][3] = x3y3;
 }
 
-matrix matrix::inverse() {
+Matrix Matrix::inverse() {
 
 	float A2323 = this->mat[2][2] * this->mat[3][3] - this->mat[2][3] * this->mat[3][2];
 	float A1323 = this->mat[2][1] * this->mat[3][3] - this->mat[2][3] * this->mat[3][1];
@@ -54,7 +54,7 @@ matrix matrix::inverse() {
 		- this->mat[0][3] * (this->mat[1][0] * A1223 - this->mat[1][1] * A0223 + this->mat[1][2] * A0123);
 	det = 1 / det;
 
-	matrix ret;
+	Matrix ret;
 
 	ret.mat[0][0] = det * (this->mat[1][1] * A2323 - this->mat[1][2] * A1323 + this->mat[1][3] * A1223);
 	ret.mat[0][1] = det * -(this->mat[0][1] * A2323 - this->mat[0][2] * A1323 + this->mat[0][3] * A1223);
@@ -77,12 +77,12 @@ matrix matrix::inverse() {
 
 }
 
-void matrix::operator=(const matrix& m) {
+void Matrix::operator=(const Matrix& m) {
 	this->mat = m.mat;
 }
 
-matrix matrix::operator*(const matrix& m) {
-	matrix ret;
+Matrix Matrix::operator*(const Matrix& m) {
+	Matrix ret;
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			ret.mat[i][j] = 0;
@@ -94,7 +94,7 @@ matrix matrix::operator*(const matrix& m) {
 	return ret;
 }
 
-Hpoint matrix::operator*(const Hpoint& p) {
+Hpoint Matrix::operator*(const Hpoint& p) {
 	Hpoint ret;
 	ret.x = (this->mat[0][0] * p.x) + (this->mat[0][1] * p.y) + (this->mat[0][2] * p.z) + (this->mat[0][3] * p.w);
 	ret.y = (this->mat[1][0] * p.x) + (this->mat[1][1] * p.y) + (this->mat[1][2] * p.z) + (this->mat[1][3] * p.w);
@@ -103,7 +103,7 @@ Hpoint matrix::operator*(const Hpoint& p) {
 	return ret;
 }
 
-Hvec3 matrix::operator*(const Hvec3& v) {
+Hvec3 Matrix::operator*(const Hvec3& v) {
 	Hvec3 vec;
 	vec.x = (this->mat[0][0] * v.x) + (this->mat[0][1] * v.y) + (this->mat[0][2] * v.z) + (this->mat[0][3] * v.w);
 	vec.y = (this->mat[1][0] * v.x) + (this->mat[1][1] * v.y) + (this->mat[1][2] * v.z) + (this->mat[1][3] * v.w);
