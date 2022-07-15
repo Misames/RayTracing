@@ -1,5 +1,6 @@
 #pragma once
 #include "point.h"
+//Point 3D en coordonées Homogène (avec une dimension en plus, utilisé pour le changement de repère)
 class Hpoint : public Point
 {
 public:

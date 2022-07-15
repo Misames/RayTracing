@@ -2,7 +2,7 @@
 #include "Hpoint.h"
 #include "Hvector3.h"
 
-
+//Rayon 3D en coordonées Homogène (avec une dimension en plus, utilisé pour le changement de repère)
 class Hray
 {
 public:

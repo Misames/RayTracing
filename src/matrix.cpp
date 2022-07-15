@@ -1,7 +1,25 @@
 #include "Matrix.h"
 
 Matrix::Matrix() {
-	this->mat = { 0 };
+	this->mat[0][0] = 1;
+	this->mat[0][1] = 0;
+	this->mat[0][2] = 0;
+	this->mat[0][3] = 0;
+					  
+	this->mat[1][0] = 0;
+	this->mat[1][1] = 1;
+	this->mat[1][2] = 0;
+	this->mat[1][3] = 0;
+					  
+	this->mat[2][0] = 0;
+	this->mat[2][1] = 0;
+	this->mat[2][2] = 1;
+	this->mat[2][3] = 0;
+					  
+	this->mat[3][0] = 0;
+	this->mat[3][1] = 0;
+	this->mat[3][2] = 0;
+	this->mat[3][3] = 1;
 }
 
 Matrix::Matrix(float x0y0, float x0y1, float x0y2, float x0y3, float x1y0, float x1y1, float x1y2, float x1y3, float x2y0, float x2y1, float x2y2, float x2y3, float x3y0, float x3y1, float x3y2, float x3y3) {

@@ -18,10 +18,13 @@ public :
 	float& operator[](const int i);
 	float operator[](const int i)const;
 	Point& operator-(const Point p);
-
+	//renvoie la norme du point
 	float norm();
+	//renvoie le scalaire du point avec le point passé en parametre
 	float dot(Point vec);
+	//renvoie l'inverse du point
 	Point oppose();
+	//renvoie le point normalisé
 	Point normalized();
 
 };

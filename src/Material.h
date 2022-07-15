@@ -13,6 +13,7 @@ public :
 public :
 	Material();
 	Material(Color am, Color dif, Color spec,float shini);
+	//Seter
 	void SetKambiante(Color col);
 	void SetKdiffuse(Color col);
 	void SetKspeculaire(Color col);

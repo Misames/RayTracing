@@ -1,6 +1,6 @@
 #pragma once
 #include "Hpoint.h"
-
+//Vecteur 3D en coordonées Homogène (avec une dimension en plus, utilisé pour le changement de repère)
 class Hvec3 : public Hpoint
 {
 public:
