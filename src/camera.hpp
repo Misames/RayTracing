@@ -1,17 +1,15 @@
 #pragma once
 
+#include <glew.h>
+#include <glfw3.h>
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#include <gtx/rotate_vector.hpp>
+#include <gtx/vector_angle.hpp>
 
-#include "includes/glew/glew.h"
-#include "includes/glfw/glfw3.h"
-#include "includes/glm/glm.hpp"
+#include "GLShader.h"
 
-#include "includes/glm/gtc/matrix_transform.hpp"
-#include "includes/glm/gtc/type_ptr.hpp"
-#include "includes/glm/gtx/rotate_vector.hpp"
-#include "includes/glm/gtx/vector_angle.hpp"
-
-
-#include "includes/GLShader.h"
 class Camera
 {
 public:
@@ -32,11 +30,11 @@ public:
     float sensitivity = 100.0f;
 
     // Camera constructor to set up initial values
-    Camera(int width, int height, glm::vec3 position);
+    Camera(int, int, glm::vec3);
 
     // Updates and exports the camera matrix to the Vertex Shader
-    void Matrix(float FOVdeg, float nearPlane, float farPlane, GLShader &shader, const char *uniform);
+    void Matrix(float, float, float, GLShader &, const char *);
 
     // Handles camera inputs
-    void Inputs(GLFWwindow *window);
+    void Inputs(GLFWwindow *);
 };

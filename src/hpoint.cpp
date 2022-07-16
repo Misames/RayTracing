@@ -1,59 +1,61 @@
-#include "Hpoint.h"
+#include "HPoint.hpp"
 
-Hpoint::Hpoint() {
-	this->x = 0;
-	this->y = 0;
-	this->z = 0;
-	this->w = 1;
+HPoint::~HPoint() {}
+
+HPoint::HPoint() : Point(), w(1.f) {}
+
+HPoint::HPoint(Point p, float w) : Point(p), w(w) {}
+
+HPoint::HPoint(float a, float b, float c) : Point(a, b, c), w(1.f) {}
+
+HPoint::HPoint(float x, float y, float z, float w) : Point(x, y, z), w(w) {}
+
+HPoint &HPoint::operator*=(const float a)
+{
+    this->x *= a;
+    this->y *= a;
+    this->z *= a;
+    this->w = 1;
+    return *this;
 }
 
-Hpoint::Hpoint(float a, float b, float c) {
-	this->x = a;
-	this->y = b;
-	this->z = c;
-	this->w = 1;
+HPoint &HPoint::operator+=(const float a)
+{
+    this->x += a;
+    this->y += a;
+    this->z += a;
+    this->w = 1;
+    return *this;
 }
 
-Hpoint& Hpoint::operator*=(const float a) {
-	this->x *= a;
-	this->y *= a;
-	this->z *= a;
-	this->w = 1;
-	return *this;
+HPoint &HPoint::operator-=(const float a)
+{
+    this->x -= a;
+    this->y -= a;
+    this->z -= a;
+    this->w = 1;
+    return *this;
 }
 
-Hpoint& Hpoint::operator+=(const float a) {
-	this->x += a;
-	this->y += a;
-	this->z += a;
-	this->w = 1;
-	return* this;
+HPoint &HPoint::operator/=(const float a)
+{
+    this->x /= a;
+    this->y /= a;
+    this->z /= a;
+    this->w = 1;
+    return *this;
 }
 
-Hpoint& Hpoint::operator-=(const float a) {
-	this->x -= a;
-	this->y -= a;
-	this->z -= a;
-	this->w = 1;
-	return *this;
+float HPoint::Dot(HPoint point)
+{
+    return this->x * point.x + this->y * point.y + this->z * point.z;
 }
 
-Hpoint& Hpoint::operator/=(const float a) {
-	this->x /= a;
-	this->y /= a;
-	this->z /= a;
-	this->w = 1;
-	return *this;
-}
-
-float Hpoint::dot(Hpoint point) {
-	return this->x * point.x + this->y * point.y + this->z * point.z;
-}
-
-Hpoint Hpoint::oppose() {
-	Hpoint ret;
-	ret.x = -this->x;
-	ret.y = -this->y;
-	ret.z = -this->z;
-	return ret;
+HPoint HPoint::Opposite()
+{
+    HPoint ret;
+    ret.x = -this->x;
+    ret.y = -this->y;
+    ret.z = -this->z;
+    return ret;
 }

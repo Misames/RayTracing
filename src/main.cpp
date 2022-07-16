@@ -26,7 +26,7 @@
 using namespace std;
 using namespace tinyobj;
 
-struct Object
+struct SubObject
 {
     // Mesh
     attrib_t m_attribs;
@@ -101,7 +101,7 @@ struct Object
         glDrawArrays(GL_TRIANGLES, m_data[0], m_indexVertex);
     }
 
-    Object(string pathObj, string pathMat)
+    SubObject(string pathObj, string pathMat)
     {
         bool ret = LoadObj(&m_attribs, &m_shapes, &m_materials, &warm, &err, pathObj.c_str(), pathMat.c_str(), true, false);
         if (ret)
@@ -152,7 +152,7 @@ bool shadows = true;
 int widthImage, heihgtImage;
 string nameOutputImage = "default.png";
 map<string, int> lstSceneToRender;
-vector<Object> lstObj;
+vector<SubObject> lstObj;
 Camera cam(640, 480, glm::vec3(0.0f, 0.0f, 2.0f));
 
 void SaveImage(string filepath, GLFWwindow *w)
@@ -188,8 +188,8 @@ void Initialize()
     shader.Create();
 
     // Load Scene
-    Object wolf = Object("data/wolf.obj", "");
-    Object tree = Object("data/tree.obj", "data/tree.mtl");
+    SubObject wolf = SubObject("data/wolf.obj", "");
+    SubObject tree = SubObject("data/tree.obj", "data/tree.mtl");
     lstObj.push_back(wolf);
     lstObj.push_back(tree);
 }

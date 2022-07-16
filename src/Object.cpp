@@ -1,7 +1,12 @@
-#include "Object.h"
+#include "object.hpp"
 
+Object::~Object() {}
 
-Material Object::getMaterial(const Point& p) {
-	return this->mat;
- }
+Object::Object() : Entity() {}
 
+Object::Object(Vector trans, float rot, float scal, Material mate) : Entity(trans, rot, scal), mat(mate) {}
+
+Material Object::GetMaterial(const Point &p)
+{
+    return this->mat;
+}

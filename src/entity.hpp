@@ -8,9 +8,10 @@ class Entity
 public:
     Matrix transform;
     Matrix transformReverse;
-    Point position;
+    Vector position;
 
     ~Entity();
+    Entity();
     Entity(Matrix);
     Entity(Vector, float, float);
 
