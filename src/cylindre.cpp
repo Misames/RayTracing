@@ -9,7 +9,7 @@ Ray Cylindre::GetNormal(const Point &p, const Point &o)
     return localToGlobal(Ray(lp, Vector(-lp[0], 0, -lp[2]).Normalized()));
 }
 
-bool Cylindre::Intersec(const Ray &ray, Point &impact)
+bool Cylindre::Intersect(const Ray &ray, Point &impact)
 {
     Ray r = globalToLocal(ray);
     r.direction.Normalized();

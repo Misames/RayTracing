@@ -1,6 +1,6 @@
 #pragma once
-
-class Color
+#include "object.hpp"
+class Color : public Object
 {
 public:
     float r;

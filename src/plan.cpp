@@ -23,7 +23,7 @@ Ray Plan::GetNormal(const Point &p, const Point &o)
     return localToGlobal(Ray(lp, Vector(0, 0, z).Normalized()));
 }
 
-bool Plan::Intersec(const Ray &ray, Point &impact)
+bool Plan::Intersect(const Ray &ray, Point &impact)
 {
 
     Ray lr = globalToLocal(ray);

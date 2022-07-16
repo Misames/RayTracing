@@ -8,7 +8,7 @@ public:
     float x;
     float y;
     float z;
-    float w;
+    float w = 0;
 
     ~HVector();
     HVector();

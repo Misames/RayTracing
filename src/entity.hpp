@@ -20,6 +20,9 @@ public:
     void rotateY(float);
     void rotateZ(float);
     void scale(float);
+
+    Vec3 getPosition();
+    
     Vector localToGlobal(Vector);
     Point localToGlobal(Point);
     Ray localToGlobal(Ray);

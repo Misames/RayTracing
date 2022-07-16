@@ -5,7 +5,7 @@
 class HPoint : public Point
 {
 public:
-    float w;
+    float w = 1;
 
     ~HPoint();
     HPoint();

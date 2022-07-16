@@ -12,5 +12,5 @@ class Cube : public Object
     // retourne la normale correspondant au point de la surface de l'objet pass� en param�tre, observ� depuis le point pass� en second param�tre.
     Ray GetNormal(const Point &, const Point &);
     // calcul si il y a intersection, si oui renvoie true et met a jout le point d'impact pass� en param�tre sinon renvoie false
-    bool Intersec(const Ray &, Point &);
+    bool Intersect(const Ray &, Point &);
 };

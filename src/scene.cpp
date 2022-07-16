@@ -1,4 +1,5 @@
 #include "scene.hpp"
+using namespace std;
 
 Scene::Scene(const Color bgCol, const Color amCol, vector<Object *> listeObj, vector<Light *> listeL)
 {
