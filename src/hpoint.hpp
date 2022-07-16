@@ -13,5 +13,11 @@ public:
     HPoint(float, float, float);
     HPoint(float, float, float, float);
 
+    HPoint &operator*=(const float);
+    HPoint &operator+=(const float);
+    HPoint &operator-=(const float);
+    HPoint &operator/=(const float);
+    HPoint Opposite();
+
     float Dot(HPoint);
 };

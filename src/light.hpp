@@ -10,8 +10,8 @@ public:
     Color is;
 
 public:
-    Ray getRayToLight(const Point &p) const;
-    Ray getRayFromLight(const Point &p) const;
-    Vector getVectorToLight(const Point &p) const;
-    Vector getVectorFromLight(const Point &p) const;
+    Ray GetRayToLight(const Point &) const;
+    Ray GetRayFromLight(const Point &) const;
+    Vector GetVectorToLight(const Point &) const;
+    Vector GetVectorFromLight(const Point &) const;
 };

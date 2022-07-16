@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 class Point
 {
 public:
@@ -12,11 +14,16 @@ public:
     Point(float, float, float);
     Point(const Point &);
 
-    Point operator+(Point);
-    Point operator-(Point);
-    Point operator*(float);
-    Point operator/(float);
+    Point &operator*=(const float);
+    Point &operator+=(const float);
+    Point &operator-(const float);
+    Point &operator/=(const float);
+    float &operator[](const int);
+    float operator[](const int) const;
+    Point &operator-(const Point);
 
     float Dot(Point);
     Point Opposite();
+    float Norm();
+    Point Normalized();
 };

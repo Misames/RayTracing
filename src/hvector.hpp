@@ -21,6 +21,6 @@ public:
 
     HVector Opposite();
     HVector Normalized();
-    float Dot(HVector vec);
+    float Dot(HVector);
     float Norm();
 };
