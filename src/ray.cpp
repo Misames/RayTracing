@@ -1,23 +1,21 @@
-#include "ray.hpp"
+#include "ray.h"
 
-Ray::~Ray() {}
-
-Ray::Ray() : origin(Point(0.f, 0.f, 0.f)), direction(0.f, 0.f, 0.f) {}
-
-Ray::Ray(const Ray &r)
-{
-    this->origin = r.origin;
-    this->direction = r.direction;
+Ray::Ray(float ox, float oy, float oz, float dx, float dy, float dz) {
+	this->origin.x = ox;
+	this->origin.y = oy;
+	this->origin.z = oz;
+	this->direction.x = dx;
+	this->direction.y = dy;
+	this->direction.z = dz;
 }
 
-Ray::Ray(Point p, Vector v)
-{
-    this->origin = p;
-    this->direction = v;
+Ray::Ray(Point p, Vec3 vec) {
+	this->origin = p;
+	this->direction = vec;
 }
-
-Ray::Ray(float x, float y, float z, float a, float b, float c)
-{
-    this->origin = Point(x, y, z);
-    this->direction = Vector(a, b, c);
+Ray::Ray(Point p, Point p2) {
+	this->origin = p;
+	this->direction.x = p2.x;
+	this->direction.y = p2.y;
+	this->direction.z = p2.z;
 }

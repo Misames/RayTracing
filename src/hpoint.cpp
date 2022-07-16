@@ -1,16 +1,59 @@
-#include "hpoint.hpp"
+#include "Hpoint.h"
 
-HPoint::~HPoint() {}
+Hpoint::Hpoint() {
+	this->x = 0;
+	this->y = 0;
+	this->z = 0;
+	this->w = 1;
+}
 
-HPoint::HPoint() : Point(), w(1.f) {}
+Hpoint::Hpoint(float a, float b, float c) {
+	this->x = a;
+	this->y = b;
+	this->z = c;
+	this->w = 1;
+}
 
-HPoint::HPoint(Point p, float w) : Point(p), w(w) {}
+Hpoint& Hpoint::operator*=(const float a) {
+	this->x *= a;
+	this->y *= a;
+	this->z *= a;
+	this->w = 1;
+	return *this;
+}
 
-HPoint::HPoint(float a, float b, float c) : Point(a, b, c), w(1.f) {}
+Hpoint& Hpoint::operator+=(const float a) {
+	this->x += a;
+	this->y += a;
+	this->z += a;
+	this->w = 1;
+	return* this;
+}
 
-HPoint::HPoint(float x, float y, float z, float w) : Point(x, y, z), w(w) {}
+Hpoint& Hpoint::operator-=(const float a) {
+	this->x -= a;
+	this->y -= a;
+	this->z -= a;
+	this->w = 1;
+	return *this;
+}
 
-float HPoint::Dot(HPoint hp)
-{
-    return this->x * hp.x + this->y * hp.y + this->z * hp.z;
+Hpoint& Hpoint::operator/=(const float a) {
+	this->x /= a;
+	this->y /= a;
+	this->z /= a;
+	this->w = 1;
+	return *this;
+}
+
+float Hpoint::dot(Hpoint point) {
+	return this->x * point.x + this->y * point.y + this->z * point.z;
+}
+
+Hpoint Hpoint::oppose() {
+	Hpoint ret;
+	ret.x = -this->x;
+	ret.y = -this->y;
+	ret.z = -this->z;
+	return ret;
 }
