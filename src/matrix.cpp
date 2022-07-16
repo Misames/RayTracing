@@ -78,9 +78,7 @@ Matrix Matrix::operator*(const Matrix &m)
         {
             ret.mat[i][j] = 0;
             for (int k = 0; k < 4; k++)
-            {
                 ret.mat[i][j] += this->mat[i][k] * (m.mat[k][j]);
-            }
         }
     }
     return ret;

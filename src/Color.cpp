@@ -1,5 +1,7 @@
 #include "color.hpp"
 
+Color::~Color() {}
+
 Color::Color() : r(0), g(0), b(0) {}
 
 Color::Color(const float R, const float G, const float B) : r(R), g(G), b(B) {}

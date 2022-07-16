@@ -12,57 +12,68 @@ Vector::Vector(float a, float b, float c) : x(a), y(b), z(c), w(0.f) {}
 
 Vector::Vector(float a, float b, float c, float d) : x(a), y(b), z(c), w(d) {}
 
-void Vector::operator=(const Vector &v)
-{
-    this->x = v.x;
-    this->y = v.y;
-    this->z = v.z;
-    this->w = v.w;
-}
-
-Vector Vector::operator+(Vector v)
-{
-    this->x += v.x;
-    this->y += v.y;
-    this->z += v.z;
-    this->w += v.w;
-    return *this;
-}
-
-Vector Vector::operator-(Vector v)
-{
-    this->x -= v.x;
-    this->y -= v.y;
-    this->z -= v.z;
-    this->w -= v.w;
-    return *this;
-}
-Vector Vector::operator*(float a)
+Vector &Vector::operator*(const float a)
 {
     this->x *= a;
     this->y *= a;
     this->z *= a;
-    this->w *= a;
     return *this;
 }
 
-Vector Vector::operator/(float a)
+Vector &Vector::operator+=(const float a)
+{
+    this->x += a;
+    this->y += a;
+    this->z += a;
+    return *this;
+}
+
+Vector &Vector::operator-=(const float a)
+{
+    this->x -= a;
+    this->y -= a;
+    this->z -= a;
+    return *this;
+}
+
+Vector &Vector::operator/=(const float a)
 {
     this->x /= a;
     this->y /= a;
     this->z /= a;
-    this->w /= a;
     return *this;
 }
 
-Vector Vector::Opposite()
+Vector &Vector::operator+(const Point p)
 {
-    Vector ret;
-    ret.x = -this->x;
-    ret.y = -this->y;
-    ret.z = -this->z;
-    ret.w = -this->w;
-    return ret;
+    this->x = this->x + p.x;
+    this->y = this->y + p.y;
+    this->z = this->z + p.z;
+    return *this;
+}
+
+float &Vector::operator[](const int i)
+{
+    if (i == 0)
+        return this->x;
+
+    if (i == 1)
+        return this->y;
+
+    if (i == 2)
+        return this->z;
+}
+
+float Vector::operator[](const int i) const
+{
+    if (i == 0)
+        return this->x;
+
+    if (i == 1)
+        return this->y;
+
+    if (i == 2)
+        return this->z;
 }
 
 Vector Vector::Normalized()
@@ -71,16 +82,28 @@ Vector Vector::Normalized()
     vecRet.x = this->x / fabsf(this->x);
     vecRet.y = this->y / fabsf(this->y);
     vecRet.z = this->z / fabsf(this->z);
-    vecRet.w = this->w / fabsf(this->w);
     return vecRet;
 }
 
 float Vector::Norm()
 {
-    return sqrt(pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2) + pow(this->w, 2));
+    return sqrt(pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2));
 }
 
 float Vector::Dot(Vector vec)
 {
-    return this->x * vec.x + this->y * vec.y + this->z * vec.z + this->w * vec.w;
+    return this->x * vec.x + this->y * vec.y + this->z * vec.z;
+}
+float Vector::Dot(Point vec)
+{
+    return this->x * vec.x + this->y * vec.y + this->z * vec.z;
+}
+
+Vector Vector::Opposite()
+{
+    Vector ret;
+    ret.x = -this->x;
+    ret.y = -this->y;
+    ret.z = -this->z;
+    return ret;
 }

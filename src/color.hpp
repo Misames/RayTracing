@@ -9,8 +9,8 @@ public:
 
     ~Color();
     Color();
-    Color(const float R, const float G, const float B);
-    Color(const Color &col);
+    Color(const float, const float, const float);
+    Color(const Color &);
 
     Color operator*(Color c) const;
 };

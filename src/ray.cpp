@@ -10,10 +10,23 @@ Ray::Ray(const Ray &r)
     this->direction = r.direction;
 }
 
+Ray::Ray(Point p, Point p2)
+{
+    this->origin = p;
+    this->direction.x = p2.x;
+    this->direction.y = p2.y;
+    this->direction.z = p2.z;
+}
+
 Ray::Ray(Point p, Vector v)
 {
     this->origin = p;
     this->direction = v;
+}
+Ray::Ray(Vector v1, Vector v2)
+{
+    this->origin = Point(v1.x, v1.y, v1.z);
+    this->direction = v2;
 }
 
 Ray::Ray(float x, float y, float z, float a, float b, float c)
