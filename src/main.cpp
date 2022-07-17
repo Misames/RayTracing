@@ -8,21 +8,12 @@
 #include <glew.h>
 #include <glfw3.h>
 #include <glm.hpp>
+#include <nlohmann/json.hpp>
 #include <tiny_obj_loader.h>
 #include "stb_image.h"
 #include "stb_image_write.h"
 #include "GLShader.h"
-#include <nlohmann/json.hpp>
-
 #include "camera.hpp"
-#include "point.hpp"
-#include "hpoint.hpp"
-#include "vector.hpp"
-#include "hvector.hpp"
-#include "matrix.hpp"
-#include "ray.hpp"
-#include "hray.hpp"
-#include "entity.hpp"
 
 using namespace std;
 using namespace tinyobj;
@@ -43,6 +34,8 @@ struct SubObject
 
     // Props
     bool m_renderer = true;
+    float ambient = 1.0f;
+    glm::vec3 baseColor;
 
     void RenderOpenGL(GLShader m_shader, Camera cam)
     {
@@ -66,6 +59,12 @@ struct SubObject
         float time = glfwGetTime();
         const int timeLocation = glGetUniformLocation(m_shader.GetProgram(), "u_time");
         glUniform1f(timeLocation, time);
+
+        const int ambientLocation = glGetUniformLocation(m_shader.GetProgram(), "u_ambient");
+        glUniform1f(ambientLocation, ambient);
+
+        const int colorLocation = glGetUniformLocation(m_shader.GetProgram(), "u_color");
+        glUniform3f(colorLocation, baseColor.x, baseColor.y, baseColor.z);
 
         float translation[] = {
             1.0f, 0.0f, 0.0f, 0.0f,            // 1ere colonne
@@ -109,8 +108,9 @@ struct SubObject
         glDrawArrays(GL_TRIANGLES, m_data[0], m_indexVertex);
     }
 
-    SubObject(string pathObj, string pathMat)
+    SubObject(string pathObj, string pathMat, glm::vec3 color)
     {
+        this->baseColor = color;
         bool ret = LoadObj(&m_attribs, &m_shapes, &m_materials, &warm, &err, pathObj.c_str(), pathMat.c_str(), true, false);
         if (ret)
         {
@@ -156,23 +156,33 @@ struct SubObject
 // Global
 GLFWwindow *window;
 GLShader shader;
-bool shadows = true;
-int widthImage, heihgtImage;
-string nameOutputImage = "default.png";
-map<string, int> lstSceneToRender;
+bool shadows = false;
 vector<SubObject> lstObj;
 Camera cam(640, 480, glm::vec3(0.0f, 0.0f, 2.0f));
-nlohmann::json j;
 
 void SaveImage(string filepath, GLFWwindow *w)
 {
+    filepath += (string) ".png";
     int width, height;
     glfwGetFramebufferSize(w, &width, &height);
+
+    char rep;
+    cout << "Custom size ? y/n" << endl;
+    cin >> rep;
+
+    if (rep == 'y')
+    {
+        cout << "width :";
+        cin >> width;
+        cout << "height : ";
+        cin >> height;
+    }
+
     GLsizei nrChannels = 3;
     GLsizei stride = nrChannels * width;
     stride += (stride % 4) ? (4 - stride % 4) : 0;
     GLsizei bufferSize = stride * height;
-    std::vector<char> buffer(bufferSize);
+    vector<char> buffer(bufferSize);
     glPixelStorei(GL_PACK_ALIGNMENT, 4);
     glReadBuffer(GL_FRONT);
     glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, buffer.data());
@@ -197,8 +207,8 @@ void Initialize()
     shader.Create();
 
     // Load Scene
-    SubObject wolf = SubObject("data/wolf.obj", "");
-    SubObject tree = SubObject("data/tree.obj", "data/tree.mtl");
+    SubObject wolf = SubObject("data/wolf.obj", "", glm::vec3(0.64f, 0.84f, 1.0f));
+    SubObject tree = SubObject("data/tree.obj", "data/tree.mtl", glm::vec3(1.0f, 0.44f, 0.34f));
     lstObj.push_back(wolf);
     lstObj.push_back(tree);
 }
@@ -222,10 +232,12 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods
     // Exporter rendu
     if (key == GLFW_KEY_Q && action == GLFW_PRESS)
     {
+        string nameOutputImage;
         cout << "choose name of output image" << endl;
         cin >> nameOutputImage;
         SaveImage(nameOutputImage, window);
-        cout << "export rennder" << endl;
+        cout << "export rennder..." << endl;
+        system("cls");
     }
 
     // Activer/Désactiver les ombres
@@ -235,11 +247,23 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods
         cout << "Shadows : " << noboolalpha << shadows << endl;
     }
 
-    // Afficher/Cacher wolf
+    // Afficher/Cacher les objets
     if (key == GLFW_KEY_F9 && action == GLFW_PRESS)
     {
-        lstObj[0].m_renderer = lstObj[0].m_renderer ? false : true;
-        cout << "Rendu : " << noboolalpha << lstObj[0].m_renderer << endl;
+        for (int i = 0; i < lstObj.capacity(); i++)
+            lstObj[i].m_renderer = lstObj[i].m_renderer ? false : true;
+    }
+
+    if (key == GLFW_KEY_F7 && action == GLFW_PRESS)
+    {
+        for (int i = 0; i < lstObj.capacity(); i++)
+            lstObj[i].ambient -= lstObj[i].ambient > 0.10 ? 0.10f : 0.f;
+    }
+
+    if (key == GLFW_KEY_F8 && action == GLFW_PRESS)
+    {
+        for (int i = 0; i < lstObj.capacity(); i++)
+            lstObj[i].ambient += lstObj[i].ambient < 0.90f ? 0.10f : 0.f;
     }
 }
 
@@ -247,11 +271,12 @@ void Display()
 {
     int widthWindow, heightWindow;
     glfwGetWindowSize(window, &widthWindow, &heightWindow);
+    glViewport(0, 0, widthWindow, heightWindow);
     glClearColor(0.5f, 0.5f, 0.5f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(shader.GetProgram());
-
-    lstObj[0].RenderOpenGL(shader, cam);
+    for (int i = 0; i < lstObj.capacity(); i++)
+        lstObj[i].RenderOpenGL(shader, cam);
 }
 
 int main()

@@ -2,15 +2,16 @@
 
 uniform vec3 view_pos;
 uniform vec3 lightPos;
+uniform float u_ambient;
+uniform vec3 u_color;
 
 varying vec3 v_normal;
 varying vec3 v_color_light;
-varying vec3 v_color_obj;
 varying vec3 FragPos;
 
 void main()
 {
-    float ambientStrength = 1.0;
+    float ambientStrength = u_ambient;
     vec3 ambient = ambientStrength * v_color_light;
 
     vec3 norm = normalize(v_normal);
@@ -24,6 +25,6 @@ void main()
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
     vec3 specular = specularStrength * spec * v_color_light;
 
-    vec3 result = (ambient + diffuse + specular) * v_color_obj;
+    vec3 result = (ambient + diffuse + specular) * u_color;
     gl_FragColor = vec4(result, 1.0);
 }
