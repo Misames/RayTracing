@@ -77,10 +77,10 @@ struct SubObject
         glUniformMatrix4fv(translationLocation, 1, GL_FALSE, translation);
 
         float rotation[] = {
-            cosf(time), 0.f, -sinf(time), 0.0f, // 1ere colonne
-            0.0f, 1.0f, 0.0f, 0.f,              // 2eme colonne
-            sinf(time), 0.f, cosf(time), 0.0f,  // 3eme colonne
-            0.0f, 0.0f, 0.0f, 1.0f              // 4eme colonne
+            1.0f, 0.0f, 0.0f, 0.0f, // 1ere colonne
+            0.0f, 1.0f, 0.0f, 0.0f, // 2eme colonne
+            0.0f, 0.0f, 1.0f, 0.0f, // 3eme colonne
+            0.0f, 0.0f, 0.0f, 1.0f  // 4eme colonne
         };
 
         const int rotationLocation = glGetUniformLocation(m_shader.GetProgram(), "u_rotation");
@@ -97,6 +97,13 @@ struct SubObject
         glUniformMatrix4fv(scaleLocation, 1, GL_FALSE, scale);
 
         cam.Matrix(45.0f, 0.1f, 1000.0f, m_shader, "u_projection");
+
+        glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+        const int lightLocation = glGetUniformLocation(m_shader.GetProgram(), "lightPos");
+        glUniform3fv(lightLocation, 3, glm::value_ptr(lightPos));
+
+        const int camLocation = glGetUniformLocation(m_shader.GetProgram(), "view_pos");
+        glUniform3fv(camLocation, 3, glm::value_ptr(cam.Position));
 
         glDrawArrays(GL_TRIANGLES, m_data[0], m_indexVertex);
     }
@@ -242,9 +249,7 @@ void Display()
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(shader.GetProgram());
 
-    // exemple d'un model
-    for (auto &&obj : lstObj)
-        obj.RenderOpenGL(shader, cam);
+    lstObj[0].RenderOpenGL(shader, cam);
 }
 
 int main()
