@@ -81,8 +81,8 @@ void Entity::scale(float factor)
     this->transform = m * this->transform;
     this->transformReverse = this->transform.Reverse();
 }
-Vec3 Entity::getPosition() {
-	return Vec3(this->MatTransform.mat[0][3], this->MatTransform.mat[1][3], this->MatTransform.mat[2][3]);
+Vector Entity::getPosition() {
+	return Vector(this->transform.mat[0][3], this->transform.mat[1][3], this->transform.mat[2][3]);
 ;}
 
 Point Entity::localToGlobal(Point p)
