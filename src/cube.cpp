@@ -53,7 +53,7 @@ float Cube::interSide(const Ray &r, int dim, float offset) const
     return t;
 }
 
-bool Cube::Intersec(const Ray &ray, Point &impact)
+bool Cube::Intersect(const Ray &ray, Point &impact)
 {
     Ray r = globalToLocal(ray);
     r.direction = r.direction.Normalized();

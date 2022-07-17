@@ -10,12 +10,12 @@ class Scene
 private:
     Color backGroundColor;
     Color AmbianteColor;
-    vector<Object *> listeObject;
-    vector<Light *> listeLight;
+    std::vector<Object *> listeObject;
+    std::vector<Light *> listeLight;
 
 public:
     // constructeur
-    Scene(const Color, const Color, vector<Object *>, vector<Light *>);
+    Scene(const Color, const Color, std::vector<Object *>, std::vector<Light *>);
 
     // Getter
     Color getBackground() const;

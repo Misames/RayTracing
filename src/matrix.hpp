@@ -4,16 +4,15 @@
 #include "hpoint.hpp"
 #include "hvector.hpp"
 
-using namespace std;
 
 class Matrix
 {
 public:
-    array<array<float, 4>, 4> mat;
+    std::array<std::array<float, 4>, 4> mat;
 
     ~Matrix();
     Matrix();
-    Matrix(const array<array<float, 4>, 4>);
+    Matrix(const std::array<std::array<float, 4>, 4>);
 
     void operator=(const Matrix &);
     HPoint operator*(const HPoint &);
