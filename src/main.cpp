@@ -12,6 +12,7 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 #include "GLShader.h"
+#include <nlohmann/json.hpp>
 
 #include "camera.hpp"
 #include "point.hpp"
@@ -161,6 +162,7 @@ string nameOutputImage = "default.png";
 map<string, int> lstSceneToRender;
 vector<SubObject> lstObj;
 Camera cam(640, 480, glm::vec3(0.0f, 0.0f, 2.0f));
+nlohmann::json j;
 
 void SaveImage(string filepath, GLFWwindow *w)
 {
