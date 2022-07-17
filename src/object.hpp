@@ -10,9 +10,7 @@ public:
 
     ~Object();
     Object();
-    Object(Vector trans, float rot, float scal, std::vector<Material> mate): Entity(trans, rot, scal){
-        this->mats = mate;
-    };
+    Object(Vector trans, float rot, float scal, std::vector<Material> mate);
 
     Material GetMaterial(const Point &p);
 
