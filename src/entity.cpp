@@ -18,7 +18,6 @@ Entity::Entity(Matrix mat)
 
 Entity::Entity(Vector translation, float rotation, float scaling)
 {
-
     translate(translation.x, translation.y, translation.z);
     rotateX(rotation);
     rotateY(rotation);

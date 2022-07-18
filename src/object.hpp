@@ -1,21 +1,34 @@
 #pragma once
+
+#include <vector>
+#include <glew.h>
+#include <glfw3.h>
+#include "GLShader.h"
 #include "entity.hpp"
 #include "material.hpp"
-#include <vector>
+#include "vertex.hpp"
+#include "vector.hpp"
+#include "ray.hpp"
+
+using namespace std;
 
 class Object : public Entity
 {
 public:
-    std::vector<Material> mats;
+    vector<Material> mats;
+    vector<Vertex> mesh;
+    Vector baseColor;
+    bool render = true;
 
     ~Object();
     Object();
-    Object(Vector trans, float rot, float scal, std::vector<Material> mate);
+    Object(Vector);
+    Object(Vector, float, float, vector<Material>);
 
-    Material GetMaterial(const Point &p);
-
+    void Render(GLShader);
+    Material GetMaterial(const Point &);
     // Fonction surchargé dans les différents Objets, initialisé par default pour un plan
-    virtual Point getTextureCoordinates(const Point &p);
-    virtual Ray getNormal(const Point &p, const Point &o);
-    virtual bool intersect(const Ray &ray, Point &impact);
+    virtual Point getTextureCoordinates(const Point &);
+    virtual Ray getNormal(const Point &, const Point &);
+    virtual bool intersect(const Ray &, Point &);
 };

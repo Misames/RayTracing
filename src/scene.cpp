@@ -1,12 +1,6 @@
-
-#include <fstream>
-#include <iostream>
-#include <nlohmann/json.hpp>
-
 #include "scene.hpp"
 
-using namespace std;
-using json = nlohmann::json;
+Scene::Scene() {}
 
 Scene::Scene(const Color bgCol, const Color amCol, vector<Object> listeObj, vector<Light> listeL)
 {

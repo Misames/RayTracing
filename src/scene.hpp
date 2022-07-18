@@ -1,23 +1,31 @@
+#pragma once
+
+#include <fstream>
+#include <iostream>
 #include <vector>
 #include <string>
+#include <nlohmann/json.hpp>
+
 #include "light.hpp"
 #include "color.hpp"
 #include "object.hpp"
 #include "material.hpp"
 
+using json = nlohmann::json;
 using namespace std;
 
 class Scene
 {
-private:
+
+public:
     Color backGroundColor;
     Color AmbianteColor;
 
     vector<Object> listeObject;
     vector<Light> listeLight;
 
-public:
     // constructeur
+    Scene();
     Scene(const Color, const Color, std::vector<Object>, std::vector<Light>);
     Scene(const string scenePath);
 

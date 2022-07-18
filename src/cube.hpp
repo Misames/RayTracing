@@ -5,6 +5,7 @@
 
 class Cube : public Object
 {
+public:
     Cube(Vector trans, float rot, float scal, std::vector<Material> mats) : Object(trans, rot, scal, mats) {}
     float interSide(const Ray &, int, float) const;
     // renvoie le Point 2D de la texture correspondant au point d'impact pass� en param�tre

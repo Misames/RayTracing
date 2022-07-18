@@ -1,8 +1,7 @@
 #pragma once
+
 #include "matrix.hpp"
 #include "ray.hpp"
-
-#define M_PI 3.14159265358979323846
 
 class Entity
 {

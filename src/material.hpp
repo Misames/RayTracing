@@ -1,10 +1,14 @@
 #pragma once
 
+#include <string>
 #include "color.hpp"
+
+using namespace std;
 
 class Material
 {
 public:
+    Color baseColor;
     Color Kambiante;
     Color Kdiffuse;
     Color kspeculaire;
