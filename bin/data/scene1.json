@@ -1,0 +1,60 @@
+{
+    "sceneColor":{
+        "backgroundColorRGB": [150,150,150],
+        "ambiantColorRGB": [200,200,200]
+    },
+    "nbLights": 1,
+    "lights":[
+        {
+            "type": "omnidirectional",
+            "position": [0,10,0],
+            "rotation": 1,
+            "scale": 1
+        }
+    ],
+    "nbObjects": 3,
+    "objects":[
+        {
+            "name": "wolf",
+            "path3D": "./data/wolf.obj",
+            "pathTexture": "",
+            "color": {
+                "ambiantColorRGB": [150,0,0],
+                "diffuseColorRGB": [150,0,0],
+                "specularColorRGB": [150,0,0],
+                "shininess": 0.5
+            },
+            "position": [0,0,0],
+            "rotation": 0,
+            "scale": 1
+        },
+        {
+            "name": "plane",
+            "path3D": "",
+            "pathTexture": "",
+            "color": {
+                "ambiantColorRGB": [200,200,200],
+                "diffuseColorRGB": [200,200,200],
+                "specularColorRGB": [200,200,200],
+                "shininess": 0.5
+            },
+            "position": [0,0,0],
+            "rotation": 0,
+            "scale": 1
+        },
+        {
+            "name": "sphere",
+            "path3D": "",
+            "pathTexture": "",
+            "color": {
+                "ambiantColorRGB": [150,0,0],
+                "diffuseColorRGB": [150,0,0],
+                "specularColorRGB": [150,0,0],
+                "shininess": 0.5
+            },
+            "position": [0,0,0],
+            "rotation": 0,
+            "scale": 1
+        }
+    ]
+}

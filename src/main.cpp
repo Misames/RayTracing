@@ -22,6 +22,7 @@
 #include "ray.hpp"
 #include "hray.hpp"
 #include "entity.hpp"
+#include "scene.hpp"
 
 using namespace std;
 using namespace tinyobj;
@@ -264,7 +265,8 @@ int main()
     glfwMakeContextCurrent(window);
     glfwSetKeyCallback(window, KeyCallback);
     Initialize();
-
+    Scene mainScene("bin/data/test.json");
+ 
     while (!glfwWindowShouldClose(window))
     {
         cam.Inputs(window);
