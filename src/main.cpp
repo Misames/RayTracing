@@ -14,6 +14,15 @@
 #include "stb_image_write.h"
 #include "GLShader.h"
 #include "camera.hpp"
+#include "point.hpp"
+#include "hpoint.hpp"
+#include "vector.hpp"
+#include "hvector.hpp"
+#include "matrix.hpp"
+#include "ray.hpp"
+#include "hray.hpp"
+#include "entity.hpp"
+#include "scene.hpp"
 
 using namespace std;
 using namespace tinyobj;
@@ -157,6 +166,7 @@ struct SubObject
 GLFWwindow *window;
 GLShader shader;
 bool shadows = false;
+Scene mainScene = Scene("bin/data/test.json");
 vector<SubObject> lstObj;
 Camera cam(640, 480, glm::vec3(0.0f, 0.0f, 2.0f));
 
@@ -205,6 +215,8 @@ void Initialize()
     shader.LoadVertexShader("vertex.glsl");
     shader.LoadFragmentShader("fragment.glsl");
     shader.Create();
+
+
 
     // Load Scene
     SubObject wolf = SubObject("data/wolf.obj", "", glm::vec3(0.64f, 0.84f, 1.0f));
@@ -296,7 +308,7 @@ int main()
     glfwMakeContextCurrent(window);
     glfwSetKeyCallback(window, KeyCallback);
     Initialize();
-
+ 
     while (!glfwWindowShouldClose(window))
     {
         cam.Inputs(window);

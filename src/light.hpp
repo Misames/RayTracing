@@ -10,6 +10,7 @@ public:
     Color is;
 
 public:
+    Light(Vector position, float rotation, float scale);
 // renvoie le rayon qui part du point passé en parametre jusqu'a la lumiere
     Ray GetRayToLight(const Point &) const;
     // renvoie le rayon qui part de la lumiere jusqu'au point passé en parametre
