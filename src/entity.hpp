@@ -23,7 +23,7 @@ public:
     void scale(float);
 
     Vector getPosition();
-    
+
     Vector localToGlobal(Vector);
     Point localToGlobal(Point);
     Ray localToGlobal(Ray);

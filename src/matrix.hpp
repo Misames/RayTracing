@@ -4,7 +4,6 @@
 #include "hpoint.hpp"
 #include "hvector.hpp"
 
-
 class Matrix
 {
 public:
