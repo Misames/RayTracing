@@ -40,28 +40,15 @@ Point &Point::operator/=(const float a)
     return *this;
 }
 
-float &Point::operator[](const int i)
-{
-    if (i == 0)
-        return this->x;
-
-    if (i == 1)
-        return this->y;
-
-    if (i == 2)
-        return this->z;
-}
-
 float Point::operator[](const int i) const
 {
     if (i == 0)
         return this->x;
-
-    if (i == 1)
+    else if (i == 1)
         return this->y;
-
-    if (i == 2)
+    else if (i == 2)
         return this->z;
+    return 0.0f;
 }
 
 Point &Point::operator-(const Point p)

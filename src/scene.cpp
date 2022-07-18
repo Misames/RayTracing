@@ -111,7 +111,7 @@ const Light Scene::getLight(int index) const
     return listeLight[index];
 }
 
-Object *Scene::closer_intersected(const Ray &ray, Point &impact) const
+Object *Scene::closerIntersected(const Ray &ray, Point &impact) const
 {
     return nullptr;
 }

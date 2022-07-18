@@ -12,17 +12,9 @@
 #include <tiny_obj_loader.h>
 #include <stb_image.h>
 #include <stb_image_write.h>
-#include "GLShader.h"
 
+#include "GLShader.h"
 #include "camera.hpp"
-#include "point.hpp"
-#include "hpoint.hpp"
-#include "vector.hpp"
-#include "hvector.hpp"
-#include "matrix.hpp"
-#include "ray.hpp"
-#include "hray.hpp"
-#include "entity.hpp"
 #include "scene.hpp"
 
 using namespace std;
@@ -109,11 +101,11 @@ struct SubObject
         cam.Matrix(45.0f, 0.1f, 1000.0f, m_shader, "u_projection");
 
         glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-        const int lightLocation = glGetUniformLocation(m_shader.GetProgram(), "lightPos");
-        glUniform3fv(lightLocation, 3, glm::value_ptr(lightPos));
+        const int lightLocation = glGetUniformLocation(m_shader.GetProgram(), "u_light");
+        glUniform3f(lightLocation, lightPos.x, lightPos.y, lightPos.z);
 
-        const int camLocation = glGetUniformLocation(m_shader.GetProgram(), "view_pos");
-        glUniform3fv(camLocation, 3, glm::value_ptr(cam.Position));
+        const int camLocation = glGetUniformLocation(m_shader.GetProgram(), "u_view");
+        glUniform3f(camLocation, cam.Position.x, cam.Position.y, cam.Position.y);
 
         glDrawArrays(GL_TRIANGLES, m_data[0], m_indexVertex);
     }
@@ -221,6 +213,7 @@ void Initialize()
     SubObject tree = SubObject("data/tree.obj", "data/tree.mtl", glm::vec3(1.0f, 0.44f, 0.34f));
     lstObj.push_back(wolf);
     lstObj.push_back(tree);
+    Scene s = Scene("/data/scene.json");
 }
 
 void Shutdown()

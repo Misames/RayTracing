@@ -18,7 +18,6 @@ public:
     Point &operator+=(const float);
     Point &operator-(const float);
     Point &operator/=(const float);
-    float &operator[](const int);
     float operator[](const int) const;
     Point &operator-(const Point);
 

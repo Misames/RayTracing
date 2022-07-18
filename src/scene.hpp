@@ -6,14 +6,15 @@
 #include "material.hpp"
 
 using namespace std;
+
 class Scene
 {
 private:
     Color backGroundColor;
     Color AmbianteColor;
 
-    std::vector<Object> listeObject;
-    std::vector<Light> listeLight;
+    vector<Object> listeObject;
+    vector<Light> listeLight;
 
 public:
     // constructeur
@@ -27,5 +28,5 @@ public:
     const Light getLight(int index) const;
 
     // retourne un pointeur sur l'objet intersect� le plus proche par le rayon pass� en param�tre
-    Object *closer_intersected(const Ray &ray, Point &impact) const;
+    Object *closerIntersected(const Ray &ray, Point &impact) const;
 };
