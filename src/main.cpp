@@ -152,7 +152,7 @@ GLShader shader;
 bool shadows = true;
 int widthImage, heihgtImage;
 string nameOutputImage = "default.png";
-map<string, int> lstSceneToRender;
+Scene mainScene = Scene("bin/data/test.json");
 vector<SubObject> lstObj;
 Camera cam(640, 480, glm::vec3(0.0f, 0.0f, 2.0f));
 
@@ -188,7 +188,10 @@ void Initialize()
     shader.LoadFragmentShader("fragment.glsl");
     shader.Create();
 
+
+
     // Load Scene
+
     SubObject wolf = SubObject("data/wolf.obj", "");
     SubObject tree = SubObject("data/tree.obj", "data/tree.mtl");
     lstObj.push_back(wolf);
@@ -265,7 +268,6 @@ int main()
     glfwMakeContextCurrent(window);
     glfwSetKeyCallback(window, KeyCallback);
     Initialize();
-    Scene mainScene("bin/data/test.json");
  
     while (!glfwWindowShouldClose(window))
     {

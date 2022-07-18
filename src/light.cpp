@@ -1,5 +1,7 @@
 #include "light.hpp"
 
+Light::Light(Vector position, float rotation, float scale):Entity(position,rotation,scale){}
+
 Ray Light::GetRayToLight(const Point &p) const
 {
     Vector v(this->position.x, this->position.y, this->position.z);
